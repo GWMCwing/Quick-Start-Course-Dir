@@ -1,6 +1,6 @@
-//TODO colored output
 // // TODO outputCount should be inside config.json
 //TODO check for outdated fileStructure.json base on timeUnix
+//TODO colored output
 //TODO error catching
 #pragma warning(disable:28020) //The expression '0<=_Param_(1)&&_Param_(1)<=400-1' is not true at this call.
 #define NOMINMAX

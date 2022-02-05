@@ -1,2 +1,9 @@
+.vscode/**
 *.obj
 *.xml
+*.exe
+config.json
+/bin/**
+json.hpp
+test.cpp
+fileStructure.json
