@@ -1,0 +1,48 @@
+{
+    "lastEdit":"2022/2/4-12:30",
+    "dirPath": "C:\\Users\\wongc\\OneDrive - HKUST Connect\\!School",
+    "_commentByYearCourse": "course and year path are appended to dirPath",
+    "byYear":{
+        "path": "\\By-Year",
+        "pathStructure": "\\year\\season\\course",
+        "_comment_pathStructure": "`\\${year}\\${season}\\${course}`"
+    },
+    "byCourse":{
+        "path": "\\By-Course",
+        "pathStructure": "\\courseName\\courseCode",
+        "_comment_pathStructure": "`\\${courseName}\\${courseCode}`"
+    },
+    "currentSemester":{
+        "path": "\\!Current-Semester",
+        "pathStructure": "\\course"
+    },
+    "inputName":{
+        "_comment": "this is used for args input",
+        "course":{
+            "alias": ["course","c"]
+        },
+        "generateStructure":{
+            "alias": ["generateStructure","g","gs","--g","--gs","-g","-gs"]
+        },
+        "year":{
+            "alias": ["year","y","yr","--y","--yr","-y","-yr","--year","-year"]
+        },
+        "currentSemester":{
+            "alias": ["currentSem","cs","--cs","--currentSem","-cs","-currentSem","c","--c","-c"]
+        }
+    },
+    "defName":{
+        "_comment":"This is used for path name definition",
+        "course": "course",
+        "_comment_course": "${courseName} ${courseCode}",
+        "season":{
+            "spring":"Spring",
+            "summer":"Summer",
+            "fall":"Fall",
+            "winter":"Winter"
+        },
+        "year":"Year",
+        "courseCode":"courseCode",
+        "courseName":"courseName"
+    }
+}

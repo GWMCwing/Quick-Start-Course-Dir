@@ -1,0 +1,37 @@
+{
+    "timeUnix": "create time unix",
+    "course":{
+        "COMP":{
+            "path":"path to file",
+            "1021":{
+                "path": "path to file"
+            }
+        },
+        "MATH":{
+            "path": "path to file",
+            "1013":{
+                "path": "path to file"
+            }
+        }
+    },
+    "year":{
+        "1":{
+            "path": "path to file",
+            "fall":{
+                "path": "path to file"
+            },
+            "spring":{
+                "path": "path to file"
+            }
+        },
+        "2":{
+            "path": "path to file",
+            "fall":{
+                "path": "path to file"
+            },
+            "spring":{
+                "path": "path to file"
+            }
+        }
+    }
+}
