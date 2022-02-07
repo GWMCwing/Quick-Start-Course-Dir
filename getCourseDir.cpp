@@ -379,45 +379,48 @@ HINSTANCE openFolder(const std::string& path) {
 int printUserSelectIndex(const std::vector<std::string>& choiceVector) {
     const int showCount = 5;
     const int modulePage = choiceVector.size() % showCount;
-    int maxPage;
-    if (modulePage == 0) {
-        maxPage = choiceVector.size() / showCount;
-    } else {
-        maxPage = choiceVector.size() / showCount + 1;
+    const int choiceVectorSize = choiceVector.size();
+    int maxPage = choiceVector.size() / showCount;
+    if (modulePage != 0) {
+        maxPage += 1;
     }
     int page = 0;
-
     char userSelectIndex = '0';
-    int result = -1;
+    int result = 0;
+    //
     std::cout << "\nPlease select the folder you want to open: \n";
+    //
     do {
         std::cout << "(Page: " << page + 1 << "/" << maxPage << ")\n";
-        for (int i = 0; i < showCount && i + showCount * page < choiceVector.size(); ++i) {
-            //! check index out of range
-            std::cout << i + 1 << ": " << choiceVector[i + showCount * page] << "\n";
+        const int startIndex = page * showCount;
+        for (int i = 0; i < showCount && i + startIndex < choiceVectorSize; ++i) {
+            std::cout << i + 1 << ": " << choiceVector[i + startIndex] << "\n";
         }
+        //
         std::cout << "\nPress 'E' to Exit, 'D' for next page, 'A' for previous page\n";
         std::cout << "Please input the index: ";
         std::cin >> userSelectIndex;
+        std::cout << "\n";
+        //
         if (std::cin.fail() || userSelectIndex == 'e' || userSelectIndex == 'E') exit(0);
         if (userSelectIndex == 'a' || userSelectIndex == 'A') {
-            // TODO reprint
-            if (page == 0) {
+            --page;
+            if (page < 0) {
                 page = maxPage - 1;
-            } else {
-                page = 0;
             }
-            std::cout << "\nOr Press 'E' to exit: \n";
+            continue;
         } else if (userSelectIndex == 'd' || userSelectIndex == 'D') {
             // 
-            if (page == maxPage - 1) {
+            ++page;
+            if (page == maxPage) {
                 page = 0;
-            } else {
-                page++;
             }
+            continue;
         }
+        //
         result = userSelectIndex - '0';
     } while (result < 1 || result > showCount);
+    //
     return result - 1 + page * showCount;
 }
 //
