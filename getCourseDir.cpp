@@ -63,7 +63,6 @@ int main(const int argc, const char** argv) {
     std::cout << "Last Edit: " << LASTEDIT << std::endl;
     if (argc < 2) {
         sendUsage();
-        system("pause");
         return 0;
     }
     // json fileStructureJson = getFileStructureJson(dirPath);
@@ -328,21 +327,21 @@ std::vector<int> generateDistanceVector(const std::string& s1, const std::vector
 }
 //
 std::vector<int> getBestMatchDistanceIndex(const std::vector<int>& distanceVector, const int& returnCount) {
-    std::vector<int> bestMatchDistanceVector(returnCount, INT16_MAX);
-    std::vector<int> bestMatchDistanceIndex(returnCount, -1);
     const int distanceVectorSize = distanceVector.size();
+    std::vector<int> bestMatchDistanceVector(distanceVectorSize, INT16_MAX);
+    std::vector<int> bestMatchDistanceIndex(distanceVectorSize, -1);
     int maxMinDistance = INT16_MAX;
     //
     for (int i = 0; i < distanceVectorSize;++i) {
         const int currentDistance = distanceVector[i];
         if (currentDistance < maxMinDistance) {
-            for (int j = 0; j < returnCount; ++j) {
+            for (int j = 0; j < distanceVectorSize; ++j) {
                 if (currentDistance < bestMatchDistanceVector[j]) {
-                    if (j == returnCount - 1) {
+                    if (j == distanceVectorSize - 1) {
                         maxMinDistance = currentDistance;
                     }
                     //
-                    for (int k = returnCount - 1; k > j; --k) {
+                    for (int k = distanceVectorSize - 1; k > j; --k) {
                         bestMatchDistanceVector[k] = bestMatchDistanceVector[k - 1];
                         bestMatchDistanceIndex[k] = bestMatchDistanceIndex[k - 1];
                     }
@@ -378,18 +377,48 @@ HINSTANCE openFolder(const std::string& path) {
 }
 
 int printUserSelectIndex(const std::vector<std::string>& choiceVector) {
-    int userSelectIndex = -1;
-    std::cout << "\nPlease select the folder you want to open: \n";
-    for (int i = 0; i < choiceVector.size(); ++i) {
-        std::cout << i + 1 << ": " << choiceVector[i] << "\n";
+    const int showCount = 5;
+    const int modulePage = choiceVector.size() % showCount;
+    int maxPage;
+    if (modulePage == 0) {
+        maxPage = choiceVector.size() / showCount;
+    } else {
+        maxPage = choiceVector.size() / showCount + 1;
     }
-    std::cout << "\n";
+    int page = 0;
+
+    char userSelectIndex = '0';
+    int result = -1;
+    std::cout << "\nPlease select the folder you want to open: \n";
     do {
+        std::cout << "(Page: " << page + 1 << "/" << maxPage << ")\n";
+        for (int i = 0; i < showCount && i + showCount * page < choiceVector.size(); ++i) {
+            //! check index out of range
+            std::cout << i + 1 << ": " << choiceVector[i + showCount * page] << "\n";
+        }
+        std::cout << "\nPress 'E' to Exit, 'D' for next page, 'A' for previous page\n";
         std::cout << "Please input the index: ";
         std::cin >> userSelectIndex;
-        if (std::cin.fail() || userSelectIndex == -1) exit(0);
-    } while (userSelectIndex < 1 || userSelectIndex > choiceVector.size());
-    return userSelectIndex - 1;
+        if (std::cin.fail() || userSelectIndex == 'e' || userSelectIndex == 'E') exit(0);
+        if (userSelectIndex == 'a' || userSelectIndex == 'A') {
+            // TODO reprint
+            if (page == 0) {
+                page = maxPage - 1;
+            } else {
+                page = 0;
+            }
+            std::cout << "\nOr Press 'E' to exit: \n";
+        } else if (userSelectIndex == 'd' || userSelectIndex == 'D') {
+            // 
+            if (page == maxPage - 1) {
+                page = 0;
+            } else {
+                page++;
+            }
+        }
+        result = userSelectIndex - '0';
+    } while (result < 1 || result > showCount);
+    return result - 1 + page * showCount;
 }
 //
 void printToConsole(const std::string text, const int& type) {
